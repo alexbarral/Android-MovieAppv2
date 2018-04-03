@@ -3,6 +3,7 @@ package com.alexbarral.movieapp;
 import android.app.Application;
 
 import com.alexbarral.movieapp.injection.component.AppComponent;
+import com.alexbarral.movieapp.injection.component.DaggerAppComponent;
 import com.alexbarral.movieapp.injection.module.AppModule;
 
 /**

@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".presentation.home.HomeActivity"
+            android:name=".presentation.view.home.HomeActivity"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.detail.DetailActivity"
-            android:parentActivityName=".presentation.home.HomeActivity" />
+            android:name="com.alexbarral.movieapp.presentation.view.detail.DetailActivity"
+            android:parentActivityName=".presentation.view.home.HomeActivity" />
     </application>
 </manifest>

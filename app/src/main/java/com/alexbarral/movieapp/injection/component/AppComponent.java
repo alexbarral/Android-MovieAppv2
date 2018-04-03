@@ -1,8 +1,9 @@
 package com.alexbarral.movieapp.injection.component;
 
+import android.content.Context;
+
 import com.alexbarral.movieapp.injection.module.AppModule;
-import com.alexbarral.movieapp.presentation.detail.DetailActivity;
-import com.alexbarral.movieapp.presentation.home.HomeActivity;
+import com.alexbarral.movieapp.presentation.view.base.BaseActivity;
 
 import javax.inject.Singleton;
 
@@ -13,12 +14,9 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {AppModule.class})
+@Component(modules = AppModule.class)
 public interface AppComponent {
-    void inject(HomeActivity homeActivity);
+    void inject(BaseActivity baseActivity);
 
-    void inject(DetailActivity detailActivity);
+    Context context();
 }
-
-
-

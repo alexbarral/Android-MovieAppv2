@@ -1,10 +1,14 @@
 package com.alexbarral.movieapp.presentation.presenter;
 
+import com.alexbarral.movieapp.domain.Configuration;
 import com.alexbarral.movieapp.domain.TvShows;
 import com.alexbarral.movieapp.domain.interactor.DefaultObserver;
+import com.alexbarral.movieapp.domain.interactor.GetConfiguration;
 import com.alexbarral.movieapp.domain.interactor.GetTvShows;
 import com.alexbarral.movieapp.injection.PerActivity;
+import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
+import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationToConfigurationModelMapper;
 import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelToTvShowMapper;
 import com.alexbarral.movieapp.presentation.view.HomeView;
 
@@ -20,14 +24,22 @@ import javax.inject.Inject;
 public class HomePresenter implements Presenter {
 
     private final GetTvShows getTvShowsUseCase;
-    private final TvShowModelToTvShowMapper mapper;
+    private final GetConfiguration getConfiguration;
+
+    private final ConfigurationToConfigurationModelMapper configurationMapper;
+    private final TvShowModelToTvShowMapper tvShowmapper;
+
     private HomeView homeView;
     private int page = 1;
+    private ConfigurationModel configurationModel;
 
     @Inject
-    public HomePresenter(GetTvShows getTvShowsUseCase, TvShowModelToTvShowMapper mapper) {
+    public HomePresenter(GetConfiguration getConfiguration, GetTvShows getTvShowsUseCase,
+                         TvShowModelToTvShowMapper tvShowmapper, ConfigurationToConfigurationModelMapper configurationMapper) {
+        this.getConfiguration = getConfiguration;
         this.getTvShowsUseCase = getTvShowsUseCase;
-        this.mapper = mapper;
+        this.tvShowmapper = tvShowmapper;
+        this.configurationMapper = configurationMapper;
     }
 
     public void setView(HomeView homeView) {
@@ -46,6 +58,7 @@ public class HomePresenter implements Presenter {
 
     @Override
     public void destroy() {
+        this.getConfiguration.dispose();
         this.getTvShowsUseCase.dispose();
         this.homeView = null;
     }
@@ -55,7 +68,7 @@ public class HomePresenter implements Presenter {
      * Initializes the presenter by start retrieving the user list.
      */
     public void initialize() {
-        this.loadTvShows();
+        this.getConfiguration.execute(new ConfigurationObserver(),null);
     }
 
     /**
@@ -106,8 +119,39 @@ public class HomePresenter implements Presenter {
         }
     }
 
+
+    private final class ConfigurationObserver extends DefaultObserver<Configuration> {
+
+        @Override
+        public void onNext(Configuration configuration) {
+            setConfiguration(configuration);
+            HomePresenter.this.loadTvShows();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            HomePresenter.this.hideLoading();
+            HomePresenter.this.showError(e.getMessage());
+
+        }
+
+        @Override
+        public void onComplete() {
+            HomePresenter.this.hideLoading();
+        }
+    }
+
+    private void setConfiguration(Configuration configuration) {
+        HomePresenter.this.configurationModel = this.configurationMapper.transform(configuration);
+    }
+
     private void showTvShowsInView(TvShows tvShows) {
-        final Collection<TvShowModel> tvShowModels = this.mapper.transform(tvShows.getTvshows());
-        this.homeView.renderTvShows(tvShowModels);
+        final Collection<TvShowModel> tvShowModels = this.tvShowmapper.transform(tvShows.getTvshows());
+        this.homeView.renderTvShows(configurationModel, tvShowModels);
+    }
+
+    public void onLoadMore(){
+        this.page++;
+        loadTvShows();
     }
 }

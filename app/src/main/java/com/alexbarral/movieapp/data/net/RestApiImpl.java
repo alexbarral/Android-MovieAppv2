@@ -1,5 +1,6 @@
 package com.alexbarral.movieapp.data.net;
 
+import com.alexbarral.movieapp.data.entity.ConfigurationEntity;
 import com.alexbarral.movieapp.data.entity.TvShowsEntity;
 import com.alexbarral.movieapp.domain.TvShows;
 
@@ -22,4 +23,11 @@ public class RestApiImpl implements RestApi {
     public Observable<TvShowsEntity> getTvShows(int page) {
         return this.apiClient.getRestAPI().getTvShows(page);
     }
+
+    @Override
+    public Observable<ConfigurationEntity> getConfiguration() {
+        return this.apiClient.getRestAPI().getConfiguration();
+    }
+
+
 }

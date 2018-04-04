@@ -39,4 +39,5 @@ public class HomeActivity extends BaseActivity implements HasComponent<TvShowCom
     public TvShowComponent getcomponent() {
         return tvShowComponent;
     }
+
 }

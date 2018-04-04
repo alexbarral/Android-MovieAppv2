@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alexbarral.movieapp.R;
+import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 import com.alexbarral.movieapp.presentation.presenter.HomePresenter;
 import com.bumptech.glide.Glide;
@@ -29,6 +30,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private final HomePresenter presenter;
     private List<TvShowModel> items;
+    private ConfigurationModel configuration;
 
 
     public HomeAdapter(@NonNull HomePresenter presenter) {
@@ -67,11 +69,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     private String getPictureUrl(TvShowModel item) {
+        String imagePath;
+
         if (item.getPoster_path() != null && !item.getPoster_path().isEmpty()) {
-            return item.getPoster_path();
+            imagePath = item.getPoster_path();
         } else {
-            return "";
+            imagePath = item.getBackdrop_path();
         }
+        if (configuration != null && configuration.getBaseUrl() != null && !configuration.getBaseUrl().isEmpty()) {
+            if (configuration.getPosterSizes() != null) {
+                if (configuration.getPosterSizes().contains("w500")){
+                    return configuration.getBaseUrl() + "w500" + imagePath;
+                } else {
+                    return configuration.getBaseUrl() + configuration.getPosterSizes().get(0) + imagePath;
+                }
+            }
+        }
+        return "";
     }
 
     @Override
@@ -85,6 +99,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     public void addAll(List<TvShowModel> items) {
         this.items.addAll(items);
+    }
+
+    public void setConfiguration(ConfigurationModel configuration) {
+        this.configuration = configuration;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

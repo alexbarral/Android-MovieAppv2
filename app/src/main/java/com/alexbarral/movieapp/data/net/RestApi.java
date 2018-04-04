@@ -1,5 +1,6 @@
 package com.alexbarral.movieapp.data.net;
 
+import com.alexbarral.movieapp.data.entity.ConfigurationEntity;
 import com.alexbarral.movieapp.data.entity.TvShowsEntity;
 
 import io.reactivex.Observable;
@@ -17,4 +18,7 @@ public interface RestApi {
     @GET("tv/popular")
     Observable<TvShowsEntity> getTvShows(@Query("page") int page);
 
+
+    @GET("configuration")
+    Observable<ConfigurationEntity> getConfiguration();
 }

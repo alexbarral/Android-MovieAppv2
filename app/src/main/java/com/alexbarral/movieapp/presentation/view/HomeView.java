@@ -1,5 +1,6 @@
 package com.alexbarral.movieapp.presentation.view;
 
+import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 
 import java.util.Collection;
@@ -13,13 +14,13 @@ public interface HomeView extends BaseView {
     /**
      * Render a tvShowlist in the UI.
      */
-    void renderTvShows(Collection<TvShowModel> tvShowModelCollection);
+    void renderTvShows(ConfigurationModel configurationModel, Collection<TvShowModel> tvShowModelCollection);
 
     /**
      * Swhows an especific tvshow
      *
-     * @param tvShowModel
+     * @param id of tvshow
      */
-    void viewTvShow(TvShowModel tvShowModel);
+    void viewTvShow(long id);
 }
 

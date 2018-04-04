@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.alexbarral.movieapp.R;
 import com.alexbarral.movieapp.injection.component.TvShowComponent;
+import com.alexbarral.movieapp.presentation.custom.EndlessScrollListener;
+import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 import com.alexbarral.movieapp.presentation.presenter.HomePresenter;
 import com.alexbarral.movieapp.presentation.view.HomeView;
@@ -33,6 +35,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     RecyclerView rv_tvshows;
 
     HomeAdapter adapter;
+    private EndlessScrollListener scrollListener;
 
     @Override
     protected void injectComponent() {
@@ -68,8 +71,19 @@ public class HomeFragment extends BaseFragment implements HomeView {
             adapter = new HomeAdapter(homePresenter);
             rv_tvshows.setAdapter(adapter);
         }
-        rv_tvshows.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rv_tvshows.setLayoutManager(linearLayoutManager);
         rv_tvshows.setHasFixedSize(true);
+
+        scrollListener = new EndlessScrollListener(linearLayoutManager) {
+
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                homePresenter.onLoadMore();
+            }
+        };
+
+        rv_tvshows.addOnScrollListener(scrollListener);
     }
 
     public HomeFragment() {
@@ -97,13 +111,14 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     @Override
-    public void renderTvShows(Collection<TvShowModel> tvShowModelCollection) {
+    public void renderTvShows(ConfigurationModel configuration, Collection<TvShowModel> tvShowModelCollection) {
+        adapter.setConfiguration(configuration);
         adapter.addAll((List<TvShowModel>) tvShowModelCollection);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void viewTvShow(TvShowModel tvShowModel) {
+    public void viewTvShow(long id) {
 
     }
 }

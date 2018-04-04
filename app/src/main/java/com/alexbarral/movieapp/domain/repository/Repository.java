@@ -1,5 +1,6 @@
 package com.alexbarral.movieapp.domain.repository;
 
+import com.alexbarral.movieapp.domain.Configuration;
 import com.alexbarral.movieapp.domain.TvShows;
 
 import io.reactivex.Observable;
@@ -14,4 +15,11 @@ public interface Repository {
      * Get an {@link Observable} which will emit a TVshows ITem}.
      */
     Observable<TvShows> tvshowsList(int page);
+
+
+    /**
+     * Get an {@link Observable} which will emit a TVshows ITem}.
+     */
+    Observable<Configuration> configuration();
+
 }

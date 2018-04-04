@@ -13,7 +13,7 @@ public class TvShowEntity {
 
     @SerializedName("poster_path")
     @Expose
-    private Object posterPath;
+    private String posterPath;
     @SerializedName("popularity")
     @Expose
     private float popularity;
@@ -22,7 +22,7 @@ public class TvShowEntity {
     private long id;
     @SerializedName("backdrop_path")
     @Expose
-    private Object backdropPath;
+    private String backdropPath;
     @SerializedName("vote_average")
     @Expose
     private double voteAverage;
@@ -51,11 +51,11 @@ public class TvShowEntity {
     @Expose
     private String originalName;
 
-    public Object getPosterPath() {
+    public String getPosterPath() {
         return posterPath;
     }
 
-    public void setPosterPath(Object posterPath) {
+    public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
 
@@ -75,11 +75,11 @@ public class TvShowEntity {
         this.id = id;
     }
 
-    public Object getBackdropPath() {
+    public String getBackdropPath() {
         return backdropPath;
     }
 
-    public void setBackdropPath(Object backdropPath) {
+    public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
     }
 

@@ -1,7 +1,9 @@
 package com.alexbarral.movieapp.data.entity.mapper;
 
+import com.alexbarral.movieapp.data.entity.ConfigurationEntity;
 import com.alexbarral.movieapp.data.entity.TvShowEntity;
 import com.alexbarral.movieapp.data.entity.TvShowsEntity;
+import com.alexbarral.movieapp.domain.Configuration;
 import com.alexbarral.movieapp.domain.TvShow;
 import com.alexbarral.movieapp.domain.TvShows;
 
@@ -30,6 +32,8 @@ public class EntityToDataMapper {
             tvshow = new TvShow();
             tvshow.setId(tvShowEntity.getId());
             tvshow.setName(tvShowEntity.getName());
+            tvshow.setBackdrop_path(tvShowEntity.getBackdropPath());
+            tvshow.setPoster_path(tvShowEntity.getPosterPath());
         }
         return tvshow;
     }
@@ -60,6 +64,16 @@ public class EntityToDataMapper {
             }
         }
         return tvShowList;
+    }
+
+    public Configuration transform(ConfigurationEntity configurationEntity){
+        Configuration configuration = null;
+        if (configurationEntity != null) {
+            configuration = new Configuration();
+            configuration.setBaseUrl(configurationEntity.getImages().getBaseUrl());
+            configuration.setPosterSizes(configurationEntity.getImages().getPosterSizes());
+        }
+        return configuration;
     }
 }
 

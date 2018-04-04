@@ -1,15 +1,16 @@
-package com.alexbarral.movieapp.domain;
+package com.alexbarral.movieapp.presentation.model;
 
 /**
  * Created by alejandrobarral on 3/4/18.
  */
 
-public class TvShow {
+public class TvShowModel {
 
     private long id;
+    private long vote_count;
+
     private long popularity;
     private long vote_average;
-    private long vote_count;
 
     private String name;
     private String original_name;
@@ -18,7 +19,6 @@ public class TvShow {
     private String overview;
     private String poster_path;
     private String backdrop_path;
-
 
     public long getId() {
         return id;
@@ -108,5 +108,3 @@ public class TvShow {
         this.backdrop_path = backdrop_path;
     }
 }
-
-

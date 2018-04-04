@@ -6,10 +6,7 @@ import com.alexbarral.movieapp.R;
 import com.alexbarral.movieapp.injection.HasComponent;
 import com.alexbarral.movieapp.injection.component.DaggerTvShowComponent;
 import com.alexbarral.movieapp.injection.component.TvShowComponent;
-import com.alexbarral.movieapp.presentation.presenter.HomePresenter;
 import com.alexbarral.movieapp.presentation.view.base.BaseActivity;
-
-import javax.inject.Inject;
 
 /**
  * Created by alejandrobarral on 3/4/18.
@@ -28,7 +25,6 @@ public class HomeActivity extends BaseActivity implements HasComponent<TvShowCom
             addFragment(R.id.fragmentContainer, new HomeFragment());
         }
     }
-
 
 
     private void initDagger() {

@@ -9,12 +9,21 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildTypes.each{
+        it.buildConfigField 'String', 'TMDB_API_KEY',"\"1f54bd990f1cdfb230adb312546d765d\""
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
@@ -23,16 +32,31 @@ ext {
     supportLibraryVersion = "26.1.0"
     butterknifeVersion = "8.8.1"
     dagger2Version = "2.13"
+    rxVersion = "2.0.2"
+    retrofit2Version = "2.2.0"
+    okhttp3Version = "3.5.0"
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // API
+    compile "com.squareup.retrofit2:retrofit:${retrofit2Version}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit2Version}"
+    compile "com.squareup.retrofit2:adapter-rxjava2:${retrofit2Version}"
+
+    compile "com.squareup.okhttp3:okhttp:${okhttp3Version}"
+    compile "com.squareup.okhttp3:logging-interceptor:${okhttp3Version}"
 
     //DI
     compile "com.jakewharton:butterknife:${butterknifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
     compile "com.google.dagger:dagger:${dagger2Version}"
     annotationProcessor "com.google.dagger:dagger-compiler:${dagger2Version}"
+
+    // RX
+    compile "io.reactivex.rxjava2:rxjava:${rxVersion}"
+    compile "io.reactivex.rxjava2:rxandroid:${rxVersion}"
 
     //UI
     implementation "com.android.support:appcompat-v7:${supportLibraryVersion}"

@@ -1,10 +1,12 @@
 package com.alexbarral.movieapp.data.net;
 
 import com.alexbarral.movieapp.data.entity.ConfigurationEntity;
+import com.alexbarral.movieapp.data.entity.TvShowEntity;
 import com.alexbarral.movieapp.data.entity.TvShowsEntity;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -21,4 +23,7 @@ public interface RestApi {
 
     @GET("configuration")
     Observable<ConfigurationEntity> getConfiguration();
+
+    @GET("tv/{tv_id}")
+    Observable<TvShowEntity> getTvShow(@Path("tv_id") long id);
 }

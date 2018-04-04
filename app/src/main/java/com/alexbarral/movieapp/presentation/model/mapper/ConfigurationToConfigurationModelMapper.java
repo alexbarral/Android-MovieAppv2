@@ -1,13 +1,7 @@
 package com.alexbarral.movieapp.presentation.model.mapper;
 
 import com.alexbarral.movieapp.domain.Configuration;
-import com.alexbarral.movieapp.domain.TvShow;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
-import com.alexbarral.movieapp.presentation.model.TvShowModel;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.inject.Inject;
 

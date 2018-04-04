@@ -44,7 +44,6 @@ public class HomePresenter implements Presenter {
 
     public void setView(HomeView homeView) {
         this.homeView = homeView;
-
     }
 
     @Override
@@ -84,7 +83,7 @@ public class HomePresenter implements Presenter {
     }
 
     private GetTvShows.Params getParams() {
-        return GetTvShows.Params.forTvShow(page);
+        return GetTvShows.Params.forTvShows(page);
     }
 
     private void showLoading() {

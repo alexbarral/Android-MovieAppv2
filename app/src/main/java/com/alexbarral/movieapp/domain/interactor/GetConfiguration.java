@@ -1,7 +1,6 @@
 package com.alexbarral.movieapp.domain.interactor;
 
 import com.alexbarral.movieapp.domain.Configuration;
-import com.alexbarral.movieapp.domain.TvShows;
 import com.alexbarral.movieapp.domain.repository.Repository;
 
 import javax.inject.Inject;

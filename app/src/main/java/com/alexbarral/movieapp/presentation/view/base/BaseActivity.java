@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by alejandrobarral on 3/4/18.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity{
 
     @Inject
     Navigator navigator;

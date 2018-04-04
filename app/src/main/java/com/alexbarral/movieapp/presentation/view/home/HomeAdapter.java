@@ -4,14 +4,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alexbarral.movieapp.R;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
-import com.alexbarral.movieapp.presentation.presenter.HomePresenter;
+import com.alexbarral.movieapp.presentation.util.ConfigurationModelUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
@@ -21,7 +20,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by alejandrobarral on 4/4/18.
@@ -55,7 +53,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         final TvShowModel tvShowModel = items.get(position);
 
         holder.titleTextView.setText(tvShowModel.getName());
-        String pictureUrl = getPictureUrl(tvShowModel);
+        String pictureUrl = ConfigurationModelUtil.getPosterUrl(configuration, tvShowModel);
         if (!pictureUrl.isEmpty()) {
             Glide.with(holder.imageView.getContext())
                     .load(pictureUrl)
@@ -72,25 +70,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         });
     }
 
-    private String getPictureUrl(TvShowModel item) {
-        String imagePath;
 
-       /* if (item.getPoster_path() != null && !item.getPoster_path().isEmpty()) {
-            imagePath = item.getPoster_path();
-        } else {
-       */     imagePath = item.getBackdrop_path();
-        //}
-        if (configuration != null && configuration.getBaseUrl() != null && !configuration.getBaseUrl().isEmpty()) {
-            if (configuration.getPosterSizes() != null) {
-                if (configuration.getPosterSizes().contains("w500")){
-                    return configuration.getBaseUrl() + "w500" + imagePath;
-                } else {
-                    return configuration.getBaseUrl() + configuration.getPosterSizes().get(0) + imagePath;
-                }
-            }
-        }
-        return "";
-    }
 
     @Override
     public int getItemCount() {

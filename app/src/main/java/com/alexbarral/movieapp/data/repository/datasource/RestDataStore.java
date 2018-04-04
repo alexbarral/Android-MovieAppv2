@@ -1,10 +1,11 @@
 package com.alexbarral.movieapp.data.repository.datasource;
 
 import com.alexbarral.movieapp.data.entity.ConfigurationEntity;
+import com.alexbarral.movieapp.data.entity.TvShowEntity;
 import com.alexbarral.movieapp.data.entity.TvShowsEntity;
 import com.alexbarral.movieapp.data.net.ApiClient;
-import com.alexbarral.movieapp.data.net.RestApiImpl;
 import com.alexbarral.movieapp.data.net.RestApi;
+import com.alexbarral.movieapp.data.net.RestApiImpl;
 
 import javax.inject.Inject;
 
@@ -31,9 +32,12 @@ public class RestDataStore implements DataStore {
     }
 
     @Override
+    public Observable<TvShowEntity> tvShow(long id) {
+        return restApi.getTvShow(id);
+    }
+
+    @Override
     public Observable<ConfigurationEntity> configuration() {
         return restApi.getConfiguration();
     }
-
-
 }

@@ -37,7 +37,7 @@ public class GetTvShows extends UseCase<TvShows, GetTvShows.Params> {
             this.page = page;
         }
 
-        public static Params forTvShow(int page) {
+        public static Params forTvShows(int page) {
             return new Params(page);
         }
     }

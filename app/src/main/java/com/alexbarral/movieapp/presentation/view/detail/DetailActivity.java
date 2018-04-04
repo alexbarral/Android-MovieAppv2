@@ -24,6 +24,7 @@ public class DetailActivity extends BaseActivity implements HasComponent<TvShowC
     DetailPresenter detailPresenter;
 
     private TvShowComponent tvShowComponent;
+    private long tvShowID;
 
     public static Intent getCallingIntent(Context context, long idTvShow) {
         Intent callingIntent = new Intent(context, DetailActivity.class);
@@ -35,6 +36,13 @@ public class DetailActivity extends BaseActivity implements HasComponent<TvShowC
     public void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         initDagger();
+
+        if (savedInstanceState == null) {
+            this.tvShowID = getIntent().getLongExtra(PARAM_TVSHOW_ID, 0);
+            addFragment(R.id.fragmentContainer, DetailFragment.forTvShow(tvShowID));
+        } else {
+            this.tvShowID = savedInstanceState.getLong(PARAM_TVSHOW_ID);
+        }
     }
 
     private void initDagger() {
@@ -44,7 +52,6 @@ public class DetailActivity extends BaseActivity implements HasComponent<TvShowC
                 .build();
 
     }
-
 
     @Override
     public TvShowComponent getcomponent() {

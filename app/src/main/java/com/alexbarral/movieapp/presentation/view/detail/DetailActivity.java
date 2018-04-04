@@ -19,13 +19,15 @@ import javax.inject.Inject;
 
 public class DetailActivity extends BaseActivity implements HasComponent<TvShowComponent>{
 
+    private static final String PARAM_TVSHOW_ID = "param_tvshow_id";
     @Inject
     DetailPresenter detailPresenter;
 
     private TvShowComponent tvShowComponent;
 
-    public static Intent getCallingIntent(Context context) {
+    public static Intent getCallingIntent(Context context, long idTvShow) {
         Intent callingIntent = new Intent(context, DetailActivity.class);
+        callingIntent.putExtra(PARAM_TVSHOW_ID,idTvShow);
         return callingIntent;
     }
 

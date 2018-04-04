@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,13 +29,16 @@ import io.reactivex.annotations.NonNull;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
-    private final HomePresenter presenter;
+    public interface OnItemClickListener {
+        void onTvShowItemClicked(long id);
+    }
+
     private List<TvShowModel> items;
     private ConfigurationModel configuration;
+    private OnItemClickListener onItemClickListener;
 
 
-    public HomeAdapter(@NonNull HomePresenter presenter) {
-        this.presenter = presenter;
+    public HomeAdapter() {
         items = new ArrayList<>();
     }
 
@@ -63,7 +67,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //presenter.onItemClicked(tvShowModel);
+                HomeAdapter.this.onItemClickListener.onTvShowItemClicked(tvShowModel.getId());
             }
         });
     }
@@ -71,11 +75,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private String getPictureUrl(TvShowModel item) {
         String imagePath;
 
-        if (item.getPoster_path() != null && !item.getPoster_path().isEmpty()) {
+       /* if (item.getPoster_path() != null && !item.getPoster_path().isEmpty()) {
             imagePath = item.getPoster_path();
         } else {
-            imagePath = item.getBackdrop_path();
-        }
+       */     imagePath = item.getBackdrop_path();
+        //}
         if (configuration != null && configuration.getBaseUrl() != null && !configuration.getBaseUrl().isEmpty()) {
             if (configuration.getPosterSizes() != null) {
                 if (configuration.getPosterSizes().contains("w500")){
@@ -117,5 +121,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
+    }
+
+
+    public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }

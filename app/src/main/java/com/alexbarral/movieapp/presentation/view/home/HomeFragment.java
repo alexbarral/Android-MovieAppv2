@@ -11,7 +11,9 @@ import com.alexbarral.movieapp.injection.component.TvShowComponent;
 import com.alexbarral.movieapp.presentation.custom.EndlessScrollListener;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
+import com.alexbarral.movieapp.presentation.navigation.Navigator;
 import com.alexbarral.movieapp.presentation.presenter.HomePresenter;
+import com.alexbarral.movieapp.presentation.presenter.Presenter;
 import com.alexbarral.movieapp.presentation.view.HomeView;
 import com.alexbarral.movieapp.presentation.view.base.BaseFragment;
 
@@ -68,7 +70,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     private void setupRecyclerView() {
         if(adapter==null) {
-            adapter = new HomeAdapter(homePresenter);
+            adapter = new HomeAdapter();
+            adapter.setOnItemClickListener(onItemClickListener);
             rv_tvshows.setAdapter(adapter);
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -119,6 +122,11 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Override
     public void viewTvShow(long id) {
-
+        getNavigator().navigateToTvShowDetail(getActivity(), id);
     }
+
+    HomeAdapter.OnItemClickListener onItemClickListener = id -> {
+        viewTvShow(id);
+    };
+
 }

@@ -150,6 +150,8 @@ public class HomePresenter implements Presenter {
         this.homeView.renderTvShows(configurationModel, tvShowModels);
     }
 
+
+
     public void onLoadMore(){
         this.page++;
         loadTvShows();

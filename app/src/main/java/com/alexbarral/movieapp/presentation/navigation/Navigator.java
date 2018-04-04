@@ -23,12 +23,10 @@ public class Navigator {
         //empty
     }
 
-
-    public void navigateToSeasonDetail(Context context) {
+    public void navigateToTvShowDetail(Context context, long idTvShow) {
         if (context != null) {
-            Intent intentToLaunch = DetailActivity.getCallingIntent(context);
+            Intent intentToLaunch = DetailActivity.getCallingIntent(context, idTvShow);
             context.startActivity(intentToLaunch);
         }
     }
-
 }

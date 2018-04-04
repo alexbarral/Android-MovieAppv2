@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.alexbarral.movieapp.injection.HasComponent;
+import com.alexbarral.movieapp.presentation.navigation.Navigator;
 
 import butterknife.ButterKnife;
 
@@ -68,5 +69,13 @@ public abstract class BaseFragment extends Fragment {
      */
     protected <C> C getComponent(Class<C> componentType) {
         return componentType.cast(((HasComponent<C>) getActivity()).getcomponent());
+    }
+
+    public Navigator getNavigator(){
+        if(getActivity() instanceof BaseActivity){
+            return ((BaseActivity)getActivity()).navigator;
+        }
+        return null;
+
     }
 }

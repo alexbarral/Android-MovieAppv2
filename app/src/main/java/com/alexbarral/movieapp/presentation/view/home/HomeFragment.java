@@ -2,6 +2,7 @@ package com.alexbarral.movieapp.presentation.view.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.alexbarral.movieapp.presentation.view.HomeView;
 import com.alexbarral.movieapp.presentation.view.base.BaseFragment;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,6 +31,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @BindView(R.id.rv_tvshows)
     RecyclerView rv_tvshows;
+
+    HomeAdapter adapter;
 
     @Override
     protected void injectComponent() {
@@ -59,8 +63,13 @@ public class HomeFragment extends BaseFragment implements HomeView {
         homePresenter.initialize();
     }
 
-
     private void setupRecyclerView() {
+        if(adapter==null) {
+            adapter = new HomeAdapter(homePresenter);
+            rv_tvshows.setAdapter(adapter);
+        }
+        rv_tvshows.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv_tvshows.setHasFixedSize(true);
     }
 
     public HomeFragment() {
@@ -89,7 +98,8 @@ public class HomeFragment extends BaseFragment implements HomeView {
 
     @Override
     public void renderTvShows(Collection<TvShowModel> tvShowModelCollection) {
-
+        adapter.addAll((List<TvShowModel>) tvShowModelCollection);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

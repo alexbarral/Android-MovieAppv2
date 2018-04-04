@@ -40,6 +40,7 @@ public class EntityToDataMapper {
 
         TvShows tvShows = null;
         if (tvShowsEntity != null) {
+            tvShows = new TvShows();
             tvShows.setPage(tvShowsEntity.getPage());
             tvShows.setTotalpages(tvShowsEntity.getTotalPages());
             tvShows.setTotalresults(tvShowsEntity.getTotalResults());

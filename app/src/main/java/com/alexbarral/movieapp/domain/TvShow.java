@@ -8,8 +8,9 @@ public class TvShow {
 
     private long id;
     private long popularity;
-    private long vote_average;
     private long vote_count;
+
+    private float vote_average;
 
     private String name;
     private String original_name;
@@ -44,11 +45,11 @@ public class TvShow {
         this.popularity = popularity;
     }
 
-    public long getVote_average() {
+    public float getVote_average() {
         return vote_average;
     }
 
-    public void setVote_average(long vote_average) {
+    public void setVote_average(float vote_average) {
         this.vote_average = vote_average;
     }
 

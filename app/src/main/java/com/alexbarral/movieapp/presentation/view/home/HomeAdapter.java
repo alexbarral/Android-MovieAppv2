@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.alexbarral.movieapp.R;
@@ -44,7 +45,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         parent.getContext();
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item, parent, false);
+                .inflate(R.layout.item_home, parent, false);
         return new ViewHolder(itemView);
     }
 
@@ -53,6 +54,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         final TvShowModel tvShowModel = items.get(position);
 
         holder.titleTextView.setText(tvShowModel.getName());
+        holder.rb_rating.setRating(tvShowModel.getVote_average()/2);
         String pictureUrl = ConfigurationModelUtil.getPosterUrl(configuration, tvShowModel);
         if (!pictureUrl.isEmpty()) {
             Glide.with(holder.imageView.getContext())
@@ -62,12 +64,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                     .into(holder.imageView);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HomeAdapter.this.onItemClickListener.onTvShowItemClicked(tvShowModel.getId());
-            }
-        });
+        holder.itemView.setOnClickListener(view -> HomeAdapter.this.onItemClickListener.onTvShowItemClicked(tvShowModel.getId()));
     }
 
 
@@ -95,6 +92,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         ImageView imageView;
         @BindView(R.id.titleTextView)
         TextView titleTextView;
+        @BindView(R.id.ratingBar)
+        RatingBar rb_rating;
 
         ViewHolder(View itemView) {
             super(itemView);

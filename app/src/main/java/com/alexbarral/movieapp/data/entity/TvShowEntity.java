@@ -25,7 +25,7 @@ public class TvShowEntity {
     private String backdropPath;
     @SerializedName("vote_average")
     @Expose
-    private double voteAverage;
+    private float voteAverage;
     @SerializedName("overview")
     @Expose
     private String overview;
@@ -83,11 +83,11 @@ public class TvShowEntity {
         this.backdropPath = backdropPath;
     }
 
-    public double getVoteAverage() {
+    public float getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(double voteAverage) {
+    public void setVoteAverage(float voteAverage) {
         this.voteAverage = voteAverage;
     }
 

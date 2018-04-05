@@ -14,7 +14,7 @@ public interface HomeView extends BaseView {
     /**
      * Render a tvShowlist in the UI.
      */
-    void renderTvShows(ConfigurationModel configurationModel, Collection<TvShowModel> tvShowModelCollection);
+    void renderTvShows(Collection<TvShowModel> tvShowModelCollection);
 
     /**
      * Swhows an especific tvshow
@@ -22,5 +22,10 @@ public interface HomeView extends BaseView {
      * @param id of tvshow
      */
     void viewTvShow(long id);
+
+    /**
+     * Sets the configuration
+     */
+    void setConfiguration(ConfigurationModel configuration);
 }
 

@@ -31,7 +31,6 @@ public class HomePresenter implements Presenter {
 
     private HomeView homeView;
     private int page = 1;
-    private ConfigurationModel configurationModel;
 
     @Inject
     public HomePresenter(GetConfiguration getConfiguration, GetTvShows getTvShowsUseCase,
@@ -62,23 +61,15 @@ public class HomePresenter implements Presenter {
         this.homeView = null;
     }
 
-
     /**
-     * Initializes the presenter by start retrieving the user list.
      */
     public void initialize() {
         this.getConfiguration.execute(new ConfigurationObserver(),null);
-    }
-
-    /**
-     * Loads all users.
-     */
-    private void loadTvShows() {
-        this.showLoading();
-        this.getTvShows();
+        getTvShows();
     }
 
     private void getTvShows() {
+        this.showLoading();
         this.getTvShowsUseCase.execute(new TvShowsObserver(), getParams());
     }
 
@@ -109,7 +100,6 @@ public class HomePresenter implements Presenter {
         public void onError(Throwable e) {
             HomePresenter.this.hideLoading();
             HomePresenter.this.showError(e.getMessage());
-
         }
 
         @Override
@@ -124,35 +114,31 @@ public class HomePresenter implements Presenter {
         @Override
         public void onNext(Configuration configuration) {
             setConfiguration(configuration);
-            HomePresenter.this.loadTvShows();
         }
 
         @Override
         public void onError(Throwable e) {
-            HomePresenter.this.hideLoading();
             HomePresenter.this.showError(e.getMessage());
-
         }
 
         @Override
         public void onComplete() {
-            HomePresenter.this.hideLoading();
         }
     }
 
     private void setConfiguration(Configuration configuration) {
-        HomePresenter.this.configurationModel = this.configurationMapper.transform(configuration);
+        final ConfigurationModel configurationModel = this.configurationMapper.transform(configuration);
+        this.homeView.setConfiguration(configurationModel);
     }
 
     private void showTvShowsInView(TvShows tvShows) {
         final Collection<TvShowModel> tvShowModels = this.tvShowmapper.transform(tvShows.getTvshows());
-        this.homeView.renderTvShows(configurationModel, tvShowModels);
+        this.homeView.renderTvShows(tvShowModels);
     }
-
-
 
     public void onLoadMore(){
         this.page++;
-        loadTvShows();
+
+        getTvShows();
     }
 }

@@ -54,11 +54,12 @@ public class DetailPresenter implements Presenter {
 
     public void initialize(long tvShowId) {
         this.tvShowId = tvShowId;
+
+        this.showLoading();
         this.getConfiguration.execute(new DetailPresenter.ConfigurationObserver(), null);
     }
 
     private void loadTvShow(){
-        this.showLoading();
         this.getTvShow();
     }
 

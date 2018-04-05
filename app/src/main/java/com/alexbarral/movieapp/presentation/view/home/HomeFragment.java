@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.alexbarral.movieapp.R;
+import com.alexbarral.movieapp.domain.Configuration;
 import com.alexbarral.movieapp.injection.component.TvShowComponent;
 import com.alexbarral.movieapp.presentation.custom.EndlessScrollListener;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
@@ -117,8 +118,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     @Override
-    public void renderTvShows(ConfigurationModel configuration, Collection<TvShowModel> tvShowModelCollection) {
-        adapter.setConfiguration(configuration);
+    public void renderTvShows(Collection<TvShowModel> tvShowModelCollection) {
         adapter.addAll((List<TvShowModel>) tvShowModelCollection);
         adapter.notifyDataSetChanged();
     }
@@ -126,6 +126,12 @@ public class HomeFragment extends BaseFragment implements HomeView {
     @Override
     public void viewTvShow(long id) {
         getNavigator().navigateToTvShowDetail(getActivity(), id);
+    }
+
+    @Override
+    public void setConfiguration(ConfigurationModel configuration) {
+        adapter.setConfiguration(configuration);
+        adapter.notifyDataSetChanged();
     }
 
     HomeAdapter.OnItemClickListener onItemClickListener = id -> {

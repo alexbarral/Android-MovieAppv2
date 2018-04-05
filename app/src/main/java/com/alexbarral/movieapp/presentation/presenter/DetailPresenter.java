@@ -10,8 +10,8 @@ import com.alexbarral.movieapp.domain.interactor.GetTvShow;
 import com.alexbarral.movieapp.injection.PerActivity;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
-import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationToConfigurationModelMapper;
-import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelToTvShowMapper;
+import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationModelDataMapper;
+import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelDataMapper;
 import com.alexbarral.movieapp.presentation.view.DetailView;
 
 import java.util.Collection;
@@ -28,8 +28,8 @@ public class DetailPresenter implements Presenter {
     private final GetTvShow getTvShowUseCase;
     private final GetConfiguration getConfiguration;
     private final GetSimilarTvShows getSimilarTvShows;
-    private final TvShowModelToTvShowMapper tvshowMapper;
-    private final ConfigurationToConfigurationModelMapper configurationMapper;
+    private final TvShowModelDataMapper tvshowMapper;
+    private final ConfigurationModelDataMapper configurationMapper;
     private DetailView detailView;
     private ConfigurationModel configurationModel;
     private long tvShowId;
@@ -38,7 +38,7 @@ public class DetailPresenter implements Presenter {
 
     @Inject
     public DetailPresenter(GetConfiguration getConfiguration, GetTvShow getTvShowUseCase, GetSimilarTvShows getSimilarTvShows,
-                           ConfigurationToConfigurationModelMapper configurationMapper, TvShowModelToTvShowMapper tvshowMapper) {
+                           ConfigurationModelDataMapper configurationMapper, TvShowModelDataMapper tvshowMapper) {
         this.getConfiguration = getConfiguration;
         this.getTvShowUseCase = getTvShowUseCase;
         this.getSimilarTvShows = getSimilarTvShows;

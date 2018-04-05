@@ -1,27 +1,20 @@
 package com.alexbarral.movieapp.presentation.presenter;
 
-import android.content.Context;
-import android.test.mock.MockDialogInterface;
-
 import com.alexbarral.movieapp.domain.interactor.GetConfiguration;
 import com.alexbarral.movieapp.domain.interactor.GetSimilarTvShows;
 import com.alexbarral.movieapp.domain.interactor.GetTvShow;
-import com.alexbarral.movieapp.domain.interactor.GetTvShows;
-import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationToConfigurationModelMapper;
-import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelToTvShowMapper;
+import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationModelDataMapper;
+import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelDataMapper;
 import com.alexbarral.movieapp.presentation.view.DetailView;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import io.reactivex.observers.DisposableObserver;
 
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -38,8 +31,8 @@ public class DetailPresenterTest {
     @Mock private GetConfiguration mockGetConfiguration;
     @Mock private GetTvShow mockGetTvShow;
     @Mock private GetSimilarTvShows mockGetSimilarTvShows;
-    @Mock private ConfigurationToConfigurationModelMapper mockConfigurationModelMapper;
-    @Mock private TvShowModelToTvShowMapper mockTvShowModelMapper;
+    @Mock private ConfigurationModelDataMapper mockConfigurationModelMapper;
+    @Mock private TvShowModelDataMapper mockTvShowModelMapper;
 
     private DetailPresenter detailPresenter;
 
@@ -59,5 +52,7 @@ public class DetailPresenterTest {
         verify(mockDetailView).showLoading();
         verify(mockGetConfiguration).execute(any(DisposableObserver.class), any());
     }
+
+
 
 }

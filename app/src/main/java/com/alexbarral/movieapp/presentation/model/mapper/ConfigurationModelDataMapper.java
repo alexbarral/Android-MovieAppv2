@@ -9,10 +9,10 @@ import javax.inject.Inject;
  * Created by alejandrobarral on 3/4/18.
  */
 
-public class ConfigurationToConfigurationModelMapper {
+public class ConfigurationModelDataMapper {
 
     @Inject
-    ConfigurationToConfigurationModelMapper() {
+    ConfigurationModelDataMapper() {
     }
 
     /**

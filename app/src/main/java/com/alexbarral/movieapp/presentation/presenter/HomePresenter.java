@@ -8,8 +8,8 @@ import com.alexbarral.movieapp.domain.interactor.GetTvShows;
 import com.alexbarral.movieapp.injection.PerActivity;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
-import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationToConfigurationModelMapper;
-import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelToTvShowMapper;
+import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationModelDataMapper;
+import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelDataMapper;
 import com.alexbarral.movieapp.presentation.view.HomeView;
 
 import java.util.Collection;
@@ -26,15 +26,15 @@ public class HomePresenter implements Presenter {
     private final GetTvShows getTvShowsUseCase;
     private final GetConfiguration getConfiguration;
 
-    private final ConfigurationToConfigurationModelMapper configurationMapper;
-    private final TvShowModelToTvShowMapper tvShowmapper;
+    private final ConfigurationModelDataMapper configurationMapper;
+    private final TvShowModelDataMapper tvShowmapper;
 
     private HomeView homeView;
     private int page = 1;
 
     @Inject
     public HomePresenter(GetConfiguration getConfiguration, GetTvShows getTvShowsUseCase,
-                         TvShowModelToTvShowMapper tvShowmapper, ConfigurationToConfigurationModelMapper configurationMapper) {
+                         TvShowModelDataMapper tvShowmapper, ConfigurationModelDataMapper configurationMapper) {
         this.getConfiguration = getConfiguration;
         this.getTvShowsUseCase = getTvShowsUseCase;
         this.tvShowmapper = tvShowmapper;

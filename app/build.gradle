@@ -19,7 +19,7 @@ android {
     }
 
     buildTypes.each{
-        it.buildConfigField 'String', 'TMDB_API_KEY',"\"1f54bd990f1cdfb230adb312546d765d\""
+        it.buildConfigField 'String', 'TMDB_API_KEY',"\"204caccf556260e95f6fd763c8ebf158\""
     }
     compileOptions {
         targetCompatibility 1.8

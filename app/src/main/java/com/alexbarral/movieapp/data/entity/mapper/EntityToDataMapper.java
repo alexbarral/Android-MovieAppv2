@@ -35,6 +35,8 @@ public class EntityToDataMapper {
             tvshow.setBackdrop_path(tvShowEntity.getBackdropPath());
             tvshow.setPoster_path(tvShowEntity.getPosterPath());
             tvshow.setOverview(tvShowEntity.getOverview());
+            tvshow.setVote_count(tvShowEntity.getVoteCount());
+            tvshow.setVote_average(tvShowEntity.getVoteAverage());
         }
         return tvshow;
     }

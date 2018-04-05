@@ -34,5 +34,8 @@ public class RestApiImpl implements RestApi {
         return this.apiClient.getRestAPI().getTvShow(id);
     }
 
-
+    @Override
+    public Observable<TvShowsEntity> getSimilarTvShows(long id, int page) {
+        return this.apiClient.getRestAPI().getSimilarTvShows(id, page);
+    }
 }

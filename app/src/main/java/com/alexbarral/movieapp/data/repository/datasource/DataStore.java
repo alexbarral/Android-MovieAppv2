@@ -13,14 +13,15 @@ import io.reactivex.Observable;
 public interface DataStore {
 
     /**
-     *
      * @param page
      * @return
      */
 
-     Observable<TvShowsEntity> tvShowsList(int page);
+    Observable<TvShowsEntity> tvShowsList(int page);
 
-     Observable<TvShowEntity> tvShow(long id);
+    Observable<TvShowEntity> tvShow(long id);
 
-     Observable<ConfigurationEntity> configuration();
+    Observable<TvShowsEntity> similarTvShows(long id, int page);
+
+    Observable<ConfigurationEntity> configuration();
 }

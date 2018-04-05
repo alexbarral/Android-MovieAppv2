@@ -42,6 +42,11 @@ public class DataRepository implements Repository {
     }
 
     @Override
+    public Observable<TvShows> similarTvshows(long id, int page) {
+        return dataStore.similarTvShows(id, page).map(this.mapper::transform);
+    }
+
+    @Override
     public Observable<Configuration> configuration() {
         return dataStore.configuration().map(this.mapper::transform);
     }

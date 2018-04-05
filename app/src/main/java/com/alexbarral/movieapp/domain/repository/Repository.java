@@ -21,7 +21,10 @@ public interface Repository {
      * Get an {@link Observable} which will emit a TVshow}.
      */
     Observable<TvShow> tvshow(long id);
-
+    /**
+     * Get an {@link Observable} which will emit a TVshow}.
+     */
+    Observable<TvShows> similarTvshows(long id, int page);
 
     /**
      * Get an {@link Observable} which will emit a TVshows ITem}.

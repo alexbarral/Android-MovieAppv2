@@ -37,6 +37,11 @@ public class RestDataStore implements DataStore {
     }
 
     @Override
+    public Observable<TvShowsEntity> similarTvShows(long id, int page) {
+        return restApi.getSimilarTvShows(id, page);
+    }
+
+    @Override
     public Observable<ConfigurationEntity> configuration() {
         return restApi.getConfiguration();
     }

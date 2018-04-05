@@ -26,4 +26,7 @@ public interface RestApi {
 
     @GET("tv/{tv_id}")
     Observable<TvShowEntity> getTvShow(@Path("tv_id") long id);
+
+    @GET("tv/{tv_id}/similar")
+    Observable<TvShowsEntity> getSimilarTvShows(@Path("tv_id") long id, @Query("page") int page);
 }

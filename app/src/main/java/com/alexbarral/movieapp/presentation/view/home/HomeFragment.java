@@ -4,11 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.alexbarral.movieapp.R;
-import com.alexbarral.movieapp.domain.Configuration;
 import com.alexbarral.movieapp.injection.component.TvShowComponent;
 import com.alexbarral.movieapp.presentation.custom.EndlessScrollListener;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
@@ -39,8 +39,12 @@ public class HomeFragment extends BaseFragment implements HomeView {
     @BindView(R.id.rv_tvshows)
     RecyclerView rv_tvshows;
 
+    @BindView(R.id.searchView)
+    SearchView searchView;
+
     HomeAdapter adapter;
     private EndlessScrollListener scrollListener;
+
 
     @Override
     protected void injectComponent() {
@@ -56,6 +60,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     public void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setupRecyclerView();
+        setupSearchView();
     }
 
     @Override
@@ -72,8 +77,33 @@ public class HomeFragment extends BaseFragment implements HomeView {
         homePresenter.initialize();
     }
 
+
+    private void setupSearchView() {
+        searchView.setQueryHint(getString(R.string.search_movie));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchQuery(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                searchQuery(query);
+                return false;
+            }
+        });
+    }
+
+    private void searchQuery(String query) {
+        if (query.length() > 3) {
+            homePresenter.onSearchQuerie(query);
+        }
+    }
+
     private void setupRecyclerView() {
-        if(adapter==null) {
+        if (adapter == null) {
             adapter = new HomeAdapter();
             adapter.setOnItemClickListener(onItemClickListener);
             rv_tvshows.setAdapter(adapter);

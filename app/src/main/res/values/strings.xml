@@ -3,4 +3,5 @@
     <string name="detail_title">Title</string>
     <string name="detail_description">Resume</string>
     <string name="detail_similar">Similar TVShows</string>
+    <string name="search_movie">Search Movie</string>
 </resources>

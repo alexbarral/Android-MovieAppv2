@@ -89,6 +89,9 @@ public class HomePresenter implements Presenter {
         homeView.showError(message);
     }
 
+    public void onSearchQuerie(String query) {
+    }
+
     private final class TvShowsObserver extends DefaultObserver<TvShows> {
 
         @Override

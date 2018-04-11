@@ -39,6 +39,7 @@ public class HomePresenter implements Presenter {
     private HomeView homeView;
     private int page = 1;
     private String query;
+    private boolean refresh;
 
     @Inject
     public HomePresenter(GetConfiguration getConfiguration, GetMovies getMoviesUseCase, GetSearchMovies getSearchMoviesUSeCase,
@@ -75,29 +76,17 @@ public class HomePresenter implements Presenter {
      */
     public void initialize() {
         this.getConfiguration.execute(new ConfigurationObserver(),null);
+        this.page = 1;
+        this.refresh = true;
         getTvShows();
     }
 
-    private void getTvShows() {
-        this.showLoading();
-        this.getMoviesUseCase.execute(new MoviesObserver(), getParams());
-    }
-
     public void onSearchQuerie(String query) {
-        this.showLoading();
         this.page = 1;
+        this.refresh = true;
         this.query = query;
-        this.getSearchMoviesUSeCase.execute(new MoviesObserver(), getSearchParams());
+        getSearchTvShows();
     }
-
-    private GetMovies.Params getParams() {
-        return GetMovies.Params.forMovies(page);
-    }
-
-    private GetSearchMovies.Params getSearchParams() {
-        return GetSearchMovies.Params.forSearchMovies(query, page);
-    }
-
 
     private void showLoading() {
         homeView.showLoading();
@@ -111,6 +100,24 @@ public class HomePresenter implements Presenter {
         homeView.showError(message);
     }
 
+    private void getTvShows() {
+        this.showLoading();
+        this.getMoviesUseCase.execute(new MoviesObserver(), getParams());
+    }
+
+    private GetMovies.Params getParams() {
+        return GetMovies.Params.forMovies(page);
+    }
+
+    private void getSearchTvShows() {
+        this.showLoading();
+        this.getSearchMoviesUSeCase.clear();
+        this.getSearchMoviesUSeCase.execute(new MoviesObserver(), getSearchParams());
+    }
+
+    private GetSearchMovies.Params getSearchParams() {
+        return GetSearchMovies.Params.forSearchMovies(query, page);
+    }
 
     private final class MoviesObserver extends DefaultObserver<Movies> {
 
@@ -130,7 +137,6 @@ public class HomePresenter implements Presenter {
             HomePresenter.this.hideLoading();
         }
     }
-
 
     private final class ConfigurationObserver extends DefaultObserver<Configuration> {
 
@@ -156,12 +162,17 @@ public class HomePresenter implements Presenter {
 
     private void showMoviesInView(Movies movies) {
         final Collection<MovieModel> movieModels = this.movieModelDataMapper.transform(movies.getMovies());
-        this.homeView.renderMovies(movieModels);
+        this.homeView.renderMovies(movieModels, refresh);
     }
 
     public void onLoadMore(){
         this.page++;
+        this.refresh = false;
 
-        getTvShows();
+        if(query !=null && !query.isEmpty()) {
+            getSearchTvShows();
+        }else{
+            getTvShows();
+        }
     }
 }

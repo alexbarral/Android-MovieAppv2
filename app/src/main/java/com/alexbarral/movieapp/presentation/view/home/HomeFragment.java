@@ -97,8 +97,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     private void searchQuery(String query) {
-        if (query.length() > 3) {
+        if (query.length() > 0) {
             homePresenter.onSearchQuerie(query);
+        }else{
+            homePresenter.initialize();
         }
     }
 
@@ -148,7 +150,10 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     @Override
-    public void renderMovies(Collection<MovieModel> movieModelCollection) {
+    public void renderMovies(Collection<MovieModel> movieModelCollection, boolean refresh) {
+        if(refresh){
+            adapter.clear();
+        }
         adapter.addAll((List<MovieModel>) movieModelCollection);
         adapter.notifyDataSetChanged();
     }

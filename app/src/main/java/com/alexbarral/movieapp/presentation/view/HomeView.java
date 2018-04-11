@@ -2,7 +2,6 @@ package com.alexbarral.movieapp.presentation.view;
 
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.MovieModel;
-import com.alexbarral.movieapp.presentation.model.TvShowModel;
 
 import java.util.Collection;
 
@@ -15,7 +14,7 @@ public interface HomeView extends BaseView {
     /**
      * Render a Movieslist in the UI.
      */
-    void renderMovies(Collection<MovieModel> movieModelCollection);
+    void renderMovies(Collection<MovieModel> movieModelCollection, boolean refresh);
 
     /**
      * Swhows an especific movie

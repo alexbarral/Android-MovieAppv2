@@ -34,6 +34,10 @@ abstract class UseCase<T, Params> {
         compositeDisposable.add(observer);
     }
 
+    public void clear() {
+        compositeDisposable.clear();
+    }
+
     public void dispose() {
         if (!compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
@@ -41,5 +45,6 @@ abstract class UseCase<T, Params> {
     }
 
     protected abstract Observable<T> createObservableUseCase(Params params);
+
 }
 

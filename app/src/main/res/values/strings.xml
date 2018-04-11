@@ -2,6 +2,6 @@
     <string name="app_name">MovieApp</string>
     <string name="detail_title">Title</string>
     <string name="detail_description">Resume</string>
-    <string name="detail_similar">Similar TVShows</string>
-    <string name="search_movie">Search TVShow</string>
+    <string name="detail_similar">Similar Movies</string>
+    <string name="search_movie">Search Movies</string>
 </resources>

@@ -110,7 +110,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rv_tvshows.setLayoutManager(linearLayoutManager);
-        rv_tvshows.setHasFixedSize(true);
+        rv_tvshows.setHasFixedSize(false);
 
         scrollListener = new EndlessScrollListener(linearLayoutManager) {
 

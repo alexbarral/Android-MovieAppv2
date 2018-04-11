@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.alexbarral.movieapp.R;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.MovieModel;
-import com.alexbarral.movieapp.presentation.model.TvShowModel;
 import com.alexbarral.movieapp.presentation.util.ConfigurationModelUtil;
 import com.alexbarral.movieapp.presentation.util.StringFormatter;
 import com.bumptech.glide.Glide;
@@ -61,8 +60,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         final MovieModel movieModel = items.get(position);
 
         holder.titleTextView.setText(movieModel.getName());
-        holder.rb_rating.setRating(movieModel.getVote_average()/2);
+        holder.rb_rating.setRating(movieModel.getVote_average() / 2);
         holder.yearTextView.setText(stringFormatter.getReleaseYear(movieModel));
+        holder.descriptionTextView.setText(movieModel.getOverview());
+
         String pictureUrl = ConfigurationModelUtil.getPosterUrl(configuration, movieModel);
         if (!pictureUrl.isEmpty()) {
             Glide.with(holder.imageView.getContext())
@@ -74,7 +75,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         holder.itemView.setOnClickListener(view -> HomeAdapter.this.onItemClickListener.onTvShowItemClicked(movieModel.getId()));
     }
-
 
 
     @Override
@@ -102,6 +102,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         TextView titleTextView;
         @BindView(R.id.yearTextView)
         TextView yearTextView;
+        @BindView(R.id.descriptionTextView)
+        TextView descriptionTextView;
         @BindView(R.id.ratingBar)
         RatingBar rb_rating;
 
@@ -113,7 +115,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
 
-    public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 }

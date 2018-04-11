@@ -13,6 +13,7 @@ import com.alexbarral.movieapp.R;
 import com.alexbarral.movieapp.injection.component.TvShowComponent;
 import com.alexbarral.movieapp.presentation.custom.EndlessScrollListener;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
+import com.alexbarral.movieapp.presentation.model.MovieModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 import com.alexbarral.movieapp.presentation.presenter.DetailPresenter;
 import com.alexbarral.movieapp.presentation.util.ConfigurationModelUtil;
@@ -145,12 +146,12 @@ public class DetailFragment extends BaseFragment implements DetailView {
     }
 
     @Override
-    public void viewTvShow(ConfigurationModel configuration, TvShowModel tvShow) {
+    public void viewMovie(ConfigurationModel configuration, MovieModel movie) {
 
-        tv_title.setText(tvShow.getName());
-        tv_description.setText(tvShow.getOverview());
+        tv_title.setText(movie.getName());
+        tv_description.setText(movie.getOverview());
 
-        String pictureUrl = ConfigurationModelUtil.getPosterUrl(configuration, tvShow);
+        String pictureUrl = ConfigurationModelUtil.getPosterUrl(configuration, movie);
         if (!pictureUrl.isEmpty()) {
             iv_background.setVisibility(View.VISIBLE);
             Glide.with(context())
@@ -164,9 +165,9 @@ public class DetailFragment extends BaseFragment implements DetailView {
     }
 
     @Override
-    public void renderSimilarTvShows(ConfigurationModel configurationModel, Collection<TvShowModel> tvShowModels) {
+    public void renderSimilarMovies(ConfigurationModel configurationModel, Collection<MovieModel> movieModels) {
         adapter.setConfiguration(configurationModel);
-        adapter.addAll((List<TvShowModel>) tvShowModels);
+        adapter.addAll((List<MovieModel>) movieModels);
         adapter.notifyDataSetChanged();
     }
 

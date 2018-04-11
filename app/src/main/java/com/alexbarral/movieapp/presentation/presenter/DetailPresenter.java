@@ -1,16 +1,22 @@
 package com.alexbarral.movieapp.presentation.presenter;
 
 import com.alexbarral.movieapp.domain.Configuration;
+import com.alexbarral.movieapp.domain.Movie;
+import com.alexbarral.movieapp.domain.Movies;
 import com.alexbarral.movieapp.domain.TvShow;
 import com.alexbarral.movieapp.domain.TvShows;
 import com.alexbarral.movieapp.domain.interactor.DefaultObserver;
 import com.alexbarral.movieapp.domain.interactor.GetConfiguration;
+import com.alexbarral.movieapp.domain.interactor.GetMovie;
+import com.alexbarral.movieapp.domain.interactor.GetSimilarMovies;
 import com.alexbarral.movieapp.domain.interactor.GetSimilarTvShows;
 import com.alexbarral.movieapp.domain.interactor.GetTvShow;
 import com.alexbarral.movieapp.injection.PerActivity;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
+import com.alexbarral.movieapp.presentation.model.MovieModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationModelDataMapper;
+import com.alexbarral.movieapp.presentation.model.mapper.MovieModelDataMapper;
 import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelDataMapper;
 import com.alexbarral.movieapp.presentation.view.DetailView;
 
@@ -25,25 +31,25 @@ import javax.inject.Inject;
 @PerActivity
 public class DetailPresenter implements Presenter {
 
-    private final GetTvShow getTvShowUseCase;
+    private final GetMovie getMovieUseCase;
     private final GetConfiguration getConfiguration;
-    private final GetSimilarTvShows getSimilarTvShows;
-    private final TvShowModelDataMapper tvshowMapper;
+    private final GetSimilarMovies getSimilarMoviesUSeCase;
+    private final MovieModelDataMapper movieMapper;
     private final ConfigurationModelDataMapper configurationMapper;
     private DetailView detailView;
     private ConfigurationModel configurationModel;
-    private long tvShowId;
+    private long movieId;
     private int page = 1;
 
 
     @Inject
-    public DetailPresenter(GetConfiguration getConfiguration, GetTvShow getTvShowUseCase, GetSimilarTvShows getSimilarTvShows,
-                           ConfigurationModelDataMapper configurationMapper, TvShowModelDataMapper tvshowMapper) {
+    public DetailPresenter(GetConfiguration getConfiguration, GetMovie getMovieUseCase, GetSimilarMovies getSimilarMoviesUSeCase,
+                           ConfigurationModelDataMapper configurationMapper, MovieModelDataMapper movieMapper) {
         this.getConfiguration = getConfiguration;
-        this.getTvShowUseCase = getTvShowUseCase;
-        this.getSimilarTvShows = getSimilarTvShows;
+        this.getMovieUseCase = getMovieUseCase;
+        this.getSimilarMoviesUSeCase = getSimilarMoviesUSeCase;
         this.configurationMapper = configurationMapper;
-        this.tvshowMapper = tvshowMapper;
+        this.movieMapper = movieMapper;
 
     }
 
@@ -52,8 +58,8 @@ public class DetailPresenter implements Presenter {
     }
 
 
-    public void initialize(long tvShowId) {
-        this.tvShowId = tvShowId;
+    public void initialize(long movieId) {
+        this.movieId = movieId;
 
         this.showLoading();
         this.getConfiguration.execute(new DetailPresenter.ConfigurationObserver(), null);
@@ -64,7 +70,7 @@ public class DetailPresenter implements Presenter {
     }
 
     private void loadSimilarContent() {
-        this.getSimilarTvShows.execute(new DetailPresenter.SimilarTvShowsObserver(), GetSimilarTvShows.Params.forSimilarTvShows(tvShowId, page));
+        this.getSimilarMoviesUSeCase.execute(new DetailPresenter.SimilarMoviesObserver(), GetSimilarMovies.Params.forSimilarMovies(movieId, page));
     }
 
     private void showLoading() {
@@ -80,7 +86,7 @@ public class DetailPresenter implements Presenter {
     }
 
     private void getTvShow() {
-        this.getTvShowUseCase.execute(new DetailPresenter.TvShowObserver(), GetTvShow.Params.forTvShow(tvShowId));
+        this.getMovieUseCase.execute(new DetailPresenter.MovieObserver(), GetMovie.Params.forMovie(movieId));
     }
 
     @Override
@@ -95,16 +101,17 @@ public class DetailPresenter implements Presenter {
 
     @Override
     public void destroy() {
-        this.getTvShowUseCase.dispose();
+        this.getMovieUseCase.dispose();
+        this.getSimilarMoviesUSeCase.dispose();
         this.getConfiguration.dispose();
         this.detailView = null;
     }
 
-    private final class TvShowObserver extends DefaultObserver<TvShow> {
+    private final class MovieObserver extends DefaultObserver<Movie> {
 
         @Override
-        public void onNext(TvShow tvShow) {
-            DetailPresenter.this.showTvShowInView(tvShow);
+        public void onNext(Movie movie) {
+            DetailPresenter.this.showMovieInView(movie);
         }
 
         @Override
@@ -120,11 +127,11 @@ public class DetailPresenter implements Presenter {
         }
     }
 
-    private final class SimilarTvShowsObserver extends DefaultObserver<TvShows> {
+    private final class SimilarMoviesObserver extends DefaultObserver<Movies> {
 
         @Override
-        public void onNext(TvShows tvShows) {
-            DetailPresenter.this.showSimilarTvShowsInView(tvShows);
+        public void onNext(Movies movies) {
+            DetailPresenter.this.showSimilarMoviesInView(movies);
         }
 
         @Override
@@ -160,14 +167,14 @@ public class DetailPresenter implements Presenter {
         this.configurationModel = this.configurationMapper.transform(configuration);
     }
 
-    private void showTvShowInView(TvShow tvShow) {
-        this.detailView.viewTvShow(this.configurationModel, this.tvshowMapper.transform(tvShow));
+    private void showMovieInView(Movie movie) {
+        this.detailView.viewMovie(this.configurationModel, this.movieMapper.transform(movie));
     }
 
 
-    private void showSimilarTvShowsInView(TvShows tvShows) {
-        final Collection<TvShowModel> tvShowModels = this.tvshowMapper.transform(tvShows.getTvshows());
-        this.detailView.renderSimilarTvShows(configurationModel, tvShowModels);
+    private void showSimilarMoviesInView(Movies movies) {
+        final Collection<MovieModel> movieModels = this.movieMapper.transform(movies.getMovies());
+        this.detailView.renderSimilarMovies(configurationModel, movieModels);
     }
 
     public void onLoadMore(){

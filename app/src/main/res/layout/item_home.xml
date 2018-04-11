@@ -25,6 +25,17 @@
             android:layout_height="match_parent"
             android:padding="10dp">
 
+            <TextView
+                android:id="@+id/yearTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                style="@style/AppTheme.TextViewTitle"
+                android:textSize="12sp"
+                tools:text="2014"
+                android:text="2106"
+                />
+
             <RatingBar
                 android:id="@+id/ratingBar"
                 style="@style/AppTheme.RatingBar"
@@ -42,7 +53,7 @@
                 style="@style/AppTheme.TextViewTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ratingBar"
+                android:layout_below="@+id/yearTextView"
                 android:layout_marginTop="10dp"
                 android:textSize="14sp"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />

@@ -1,6 +1,7 @@
 package com.alexbarral.movieapp.presentation.util;
 
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
+import com.alexbarral.movieapp.presentation.model.MovieModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 
 /**
@@ -9,13 +10,13 @@ import com.alexbarral.movieapp.presentation.model.TvShowModel;
 
 public class ConfigurationModelUtil {
 
-    public static String getPosterUrl(ConfigurationModel configurationModel, TvShowModel tvShowModel){
+    public static String getPosterUrl(ConfigurationModel configurationModel, MovieModel movieModel){
         String imagePath;
 
-        if (tvShowModel.getPoster_path() != null && !tvShowModel.getPoster_path().isEmpty()) {
-            imagePath = tvShowModel.getPoster_path();
+        if (movieModel.getPoster_path() != null && !movieModel.getPoster_path().isEmpty()) {
+            imagePath = movieModel.getPoster_path();
         } else {
-            imagePath = tvShowModel.getBackdrop_path();
+            imagePath = movieModel.getBackdrop_path();
         }
         if (configurationModel != null && configurationModel.getBaseUrl() != null && !configurationModel.getBaseUrl().isEmpty()) {
             if (configurationModel.getPosterSizes() != null) {
@@ -28,4 +29,5 @@ public class ConfigurationModelUtil {
         }
         return "";
     }
+
 }

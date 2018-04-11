@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.alexbarral.movieapp.R;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
+import com.alexbarral.movieapp.presentation.model.MovieModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 import com.alexbarral.movieapp.presentation.util.ConfigurationModelUtil;
 import com.bumptech.glide.Glide;
@@ -32,7 +33,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         void onTvShowItemClicked(long id);
     }
 
-    private List<TvShowModel> items;
+    private List<MovieModel> items;
     private ConfigurationModel configuration;
     private OnItemClickListener onItemClickListener;
 
@@ -51,11 +52,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final TvShowModel tvShowModel = items.get(position);
+        final MovieModel movieModel = items.get(position);
 
-        holder.titleTextView.setText(tvShowModel.getName());
-        holder.rb_rating.setRating(tvShowModel.getVote_average()/2);
-        String pictureUrl = ConfigurationModelUtil.getPosterUrl(configuration, tvShowModel);
+        holder.titleTextView.setText(movieModel.getName());
+        holder.rb_rating.setRating(movieModel.getVote_average()/2);
+        String pictureUrl = ConfigurationModelUtil.getPosterUrl(configuration, movieModel);
         if (!pictureUrl.isEmpty()) {
             Glide.with(holder.imageView.getContext())
                     .load(pictureUrl)
@@ -64,7 +65,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                     .into(holder.imageView);
         }
 
-        holder.itemView.setOnClickListener(view -> HomeAdapter.this.onItemClickListener.onTvShowItemClicked(tvShowModel.getId()));
+        holder.itemView.setOnClickListener(view -> HomeAdapter.this.onItemClickListener.onTvShowItemClicked(movieModel.getId()));
     }
 
 
@@ -78,7 +79,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         items.clear();
     }
 
-    public void addAll(List<TvShowModel> items) {
+    public void addAll(List<MovieModel> items) {
         this.items.addAll(items);
     }
 

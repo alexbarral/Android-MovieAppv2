@@ -1,9 +1,13 @@
 package com.alexbarral.movieapp.data.entity.mapper;
 
 import com.alexbarral.movieapp.data.entity.ConfigurationEntity;
+import com.alexbarral.movieapp.data.entity.MovieEntity;
+import com.alexbarral.movieapp.data.entity.MoviesEntity;
 import com.alexbarral.movieapp.data.entity.TvShowEntity;
 import com.alexbarral.movieapp.data.entity.TvShowsEntity;
 import com.alexbarral.movieapp.domain.Configuration;
+import com.alexbarral.movieapp.domain.Movie;
+import com.alexbarral.movieapp.domain.Movies;
 import com.alexbarral.movieapp.domain.TvShow;
 import com.alexbarral.movieapp.domain.TvShows;
 
@@ -52,12 +56,12 @@ public class EntityToDataMapper {
             tvShows.setTotalpages(tvShowsEntity.getTotalPages());
             tvShows.setTotalresults(tvShowsEntity.getTotalResults());
 
-            tvShows.setTvshows(transform(tvShowsEntity.getResults()));
+            tvShows.setTvshows(transformTVShowLis(tvShowsEntity.getResults()));
         }
         return tvShows;
     }
 
-    private List<TvShow> transform(List<TvShowEntity> tvShowEntityList) {
+    private List<TvShow> transformTVShowLis(List<TvShowEntity> tvShowEntityList) {
 
         final List<TvShow> tvShowList = new ArrayList<>(20);
         for (TvShowEntity tvShowEntity : tvShowEntityList) {
@@ -68,6 +72,54 @@ public class EntityToDataMapper {
         }
         return tvShowList;
     }
+
+
+    /**
+     */
+    public Movie transform(MovieEntity movieEntity) {
+        Movie movie = null;
+        if (movieEntity != null) {
+            movie = new Movie();
+            movie.setId(movieEntity.getId());
+            movie.setName(movieEntity.getTitle());
+            movie.setBackdrop_path(movieEntity.getBackdropPath());
+            movie.setPoster_path(movieEntity.getPosterPath());
+            movie.setOverview(movieEntity.getOverview());
+            movie.setVote_count(movieEntity.getVoteCount());
+            movie.setVote_average(movieEntity.getVoteAverage());
+            movie.setRelease_date(movieEntity.getReleaseDate());
+        }
+        return movie;
+    }
+
+    /**
+     */
+    public Movies transform(MoviesEntity moviesEntity) {
+
+        Movies movies = null;
+        if (moviesEntity != null) {
+            movies = new Movies();
+            movies.setPage(moviesEntity.getPage());
+            movies.setTotalpages(moviesEntity.getTotalPages());
+            movies.setTotalresults(moviesEntity.getTotalResults());
+
+            movies.setMovies(transform(moviesEntity.getResults()));
+        }
+        return movies;
+    }
+
+    private List<Movie> transform(List<MovieEntity> movieEntityList) {
+
+        final List<Movie> movieList = new ArrayList<>(20);
+        for (MovieEntity movieEntity : movieEntityList) {
+            final Movie movie = transform(movieEntity);
+            if (movie != null) {
+                movieList.add(movie);
+            }
+        }
+        return movieList;
+    }
+
 
     public Configuration transform(ConfigurationEntity configurationEntity){
         Configuration configuration = null;

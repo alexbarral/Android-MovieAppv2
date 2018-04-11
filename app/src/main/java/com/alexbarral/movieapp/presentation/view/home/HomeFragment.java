@@ -12,7 +12,7 @@ import com.alexbarral.movieapp.R;
 import com.alexbarral.movieapp.injection.component.TvShowComponent;
 import com.alexbarral.movieapp.presentation.custom.EndlessScrollListener;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
-import com.alexbarral.movieapp.presentation.model.TvShowModel;
+import com.alexbarral.movieapp.presentation.model.MovieModel;
 import com.alexbarral.movieapp.presentation.presenter.HomePresenter;
 import com.alexbarral.movieapp.presentation.view.HomeView;
 import com.alexbarral.movieapp.presentation.view.base.BaseFragment;
@@ -148,13 +148,13 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     @Override
-    public void renderTvShows(Collection<TvShowModel> tvShowModelCollection) {
-        adapter.addAll((List<TvShowModel>) tvShowModelCollection);
+    public void renderMovies(Collection<MovieModel> movieModelCollection) {
+        adapter.addAll((List<MovieModel>) movieModelCollection);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void viewTvShow(long id) {
+    public void viewMovie(long id) {
         getNavigator().navigateToTvShowDetail(getActivity(), id);
     }
 
@@ -165,7 +165,7 @@ public class HomeFragment extends BaseFragment implements HomeView {
     }
 
     HomeAdapter.OnItemClickListener onItemClickListener = id -> {
-        viewTvShow(id);
+        viewMovie(id);
     };
 
 }

@@ -1,6 +1,9 @@
 package com.alexbarral.movieapp.presentation.view;
 
+import com.alexbarral.movieapp.domain.Movie;
+import com.alexbarral.movieapp.domain.Movies;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
+import com.alexbarral.movieapp.presentation.model.MovieModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 
 import java.util.Collection;
@@ -11,13 +14,8 @@ import java.util.Collection;
 
 public interface DetailView extends BaseView {
 
-    /**
-     * Swhows an especific tvshow
-     *
-     * @param tvShow tvshow to show
-     */
-    void viewTvShow(ConfigurationModel configuration, TvShowModel tvShow);
+    void viewMovie(ConfigurationModel configuration, MovieModel movieModel);
 
-    void renderSimilarTvShows(ConfigurationModel configurationModel, Collection<TvShowModel> tvShowModels);
+    void renderSimilarMovies(ConfigurationModel configurationModel, Collection<MovieModel> movieModels);
 }
 

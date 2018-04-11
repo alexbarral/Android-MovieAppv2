@@ -1,14 +1,20 @@
 package com.alexbarral.movieapp.presentation.presenter;
 
 import com.alexbarral.movieapp.domain.Configuration;
+import com.alexbarral.movieapp.domain.Movies;
 import com.alexbarral.movieapp.domain.TvShows;
 import com.alexbarral.movieapp.domain.interactor.DefaultObserver;
 import com.alexbarral.movieapp.domain.interactor.GetConfiguration;
+import com.alexbarral.movieapp.domain.interactor.GetMovies;
+import com.alexbarral.movieapp.domain.interactor.GetSearchMovies;
+import com.alexbarral.movieapp.domain.interactor.GetSearchTvShows;
 import com.alexbarral.movieapp.domain.interactor.GetTvShows;
 import com.alexbarral.movieapp.injection.PerActivity;
 import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
+import com.alexbarral.movieapp.presentation.model.MovieModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 import com.alexbarral.movieapp.presentation.model.mapper.ConfigurationModelDataMapper;
+import com.alexbarral.movieapp.presentation.model.mapper.MovieModelDataMapper;
 import com.alexbarral.movieapp.presentation.model.mapper.TvShowModelDataMapper;
 import com.alexbarral.movieapp.presentation.view.HomeView;
 
@@ -23,21 +29,24 @@ import javax.inject.Inject;
 @PerActivity
 public class HomePresenter implements Presenter {
 
-    private final GetTvShows getTvShowsUseCase;
+    private final GetMovies getMoviesUseCase;
+    private final GetSearchMovies getSearchMoviesUSeCase;
     private final GetConfiguration getConfiguration;
 
     private final ConfigurationModelDataMapper configurationMapper;
-    private final TvShowModelDataMapper tvShowmapper;
+    private final MovieModelDataMapper movieModelDataMapper;
 
     private HomeView homeView;
     private int page = 1;
+    private String query;
 
     @Inject
-    public HomePresenter(GetConfiguration getConfiguration, GetTvShows getTvShowsUseCase,
-                         TvShowModelDataMapper tvShowmapper, ConfigurationModelDataMapper configurationMapper) {
+    public HomePresenter(GetConfiguration getConfiguration, GetMovies getMoviesUseCase, GetSearchMovies getSearchMoviesUSeCase,
+                         MovieModelDataMapper movieModelDataMapper, ConfigurationModelDataMapper configurationMapper) {
         this.getConfiguration = getConfiguration;
-        this.getTvShowsUseCase = getTvShowsUseCase;
-        this.tvShowmapper = tvShowmapper;
+        this.getMoviesUseCase = getMoviesUseCase;
+        this.getSearchMoviesUSeCase = getSearchMoviesUSeCase;
+        this.movieModelDataMapper = movieModelDataMapper;
         this.configurationMapper = configurationMapper;
     }
 
@@ -57,7 +66,8 @@ public class HomePresenter implements Presenter {
     @Override
     public void destroy() {
         this.getConfiguration.dispose();
-        this.getTvShowsUseCase.dispose();
+        this.getMoviesUseCase.dispose();
+        this.getSearchMoviesUSeCase.dispose();
         this.homeView = null;
     }
 
@@ -70,12 +80,24 @@ public class HomePresenter implements Presenter {
 
     private void getTvShows() {
         this.showLoading();
-        this.getTvShowsUseCase.execute(new TvShowsObserver(), getParams());
+        this.getMoviesUseCase.execute(new MoviesObserver(), getParams());
     }
 
-    private GetTvShows.Params getParams() {
-        return GetTvShows.Params.forTvShows(page);
+    public void onSearchQuerie(String query) {
+        this.showLoading();
+        this.page = 1;
+        this.query = query;
+        this.getSearchMoviesUSeCase.execute(new MoviesObserver(), getSearchParams());
     }
+
+    private GetMovies.Params getParams() {
+        return GetMovies.Params.forMovies(page);
+    }
+
+    private GetSearchMovies.Params getSearchParams() {
+        return GetSearchMovies.Params.forSearchMovies(query, page);
+    }
+
 
     private void showLoading() {
         homeView.showLoading();
@@ -89,14 +111,12 @@ public class HomePresenter implements Presenter {
         homeView.showError(message);
     }
 
-    public void onSearchQuerie(String query) {
-    }
 
-    private final class TvShowsObserver extends DefaultObserver<TvShows> {
+    private final class MoviesObserver extends DefaultObserver<Movies> {
 
         @Override
-        public void onNext(TvShows tvShows) {
-            HomePresenter.this.showTvShowsInView(tvShows);
+        public void onNext(Movies movies) {
+            HomePresenter.this.showMoviesInView(movies);
         }
 
         @Override
@@ -134,9 +154,9 @@ public class HomePresenter implements Presenter {
         this.homeView.setConfiguration(configurationModel);
     }
 
-    private void showTvShowsInView(TvShows tvShows) {
-        final Collection<TvShowModel> tvShowModels = this.tvShowmapper.transform(tvShows.getTvshows());
-        this.homeView.renderTvShows(tvShowModels);
+    private void showMoviesInView(Movies movies) {
+        final Collection<MovieModel> movieModels = this.movieModelDataMapper.transform(movies.getMovies());
+        this.homeView.renderMovies(movieModels);
     }
 
     public void onLoadMore(){

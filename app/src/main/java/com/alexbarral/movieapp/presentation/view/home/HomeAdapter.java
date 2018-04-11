@@ -13,6 +13,7 @@ import com.alexbarral.movieapp.presentation.model.ConfigurationModel;
 import com.alexbarral.movieapp.presentation.model.MovieModel;
 import com.alexbarral.movieapp.presentation.model.TvShowModel;
 import com.alexbarral.movieapp.presentation.util.ConfigurationModelUtil;
+import com.alexbarral.movieapp.presentation.util.StringFormatter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
@@ -37,6 +38,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private ConfigurationModel configuration;
     private OnItemClickListener onItemClickListener;
 
+    private StringFormatter stringFormatter;
+
 
     public HomeAdapter() {
         items = new ArrayList<>();
@@ -47,6 +50,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         parent.getContext();
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_home, parent, false);
+
+        stringFormatter = new StringFormatter();
+
         return new ViewHolder(itemView);
     }
 
@@ -56,6 +62,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         holder.titleTextView.setText(movieModel.getName());
         holder.rb_rating.setRating(movieModel.getVote_average()/2);
+        holder.yearTextView.setText(stringFormatter.getReleaseYear(movieModel));
         String pictureUrl = ConfigurationModelUtil.getPosterUrl(configuration, movieModel);
         if (!pictureUrl.isEmpty()) {
             Glide.with(holder.imageView.getContext())
@@ -93,6 +100,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         ImageView imageView;
         @BindView(R.id.titleTextView)
         TextView titleTextView;
+        @BindView(R.id.yearTextView)
+        TextView yearTextView;
         @BindView(R.id.ratingBar)
         RatingBar rb_rating;
 

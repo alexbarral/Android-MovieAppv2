@@ -23,7 +23,6 @@ public interface RestApi {
     @GET("configuration")
     Observable<ConfigurationEntity> getConfiguration();
 
-
     @GET("movie/{tv_id}")
     Observable<MovieEntity> getMovie(@Path("tv_id") long id);
 
